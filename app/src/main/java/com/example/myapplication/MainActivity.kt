@@ -7,13 +7,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     var state by mutableStateOf(0L)
@@ -33,13 +34,14 @@ class MainActivity : ComponentActivity() {
                 contentDescription = null,
             )
 
-            LaunchedEffect(Unit) {
-                while (true) {
-                    delay(1000)
-                    state = System.currentTimeMillis()
-                }
-            }
             Text(text = state.toString())
+        }
+
+        lifecycleScope.launch {
+            while (true) {
+                delay(1000)
+                state = System.currentTimeMillis()
+            }
         }
     }
 }
